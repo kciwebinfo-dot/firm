@@ -20,7 +20,11 @@ if ($action === 'send') {
     $otp = (string)random_int(100000, 999999);
     $pdo->prepare("UPDATE users SET otp_code = ?, otp_type = 'forgot', otp_expires = ?, otp_attempts = 0 WHERE id = ?")
         ->execute([$otp, date('Y-m-d H:i:s', time() + 600), $user['id']]);
-    sendWhatsAppTemplate($mobile, 'forgot_otp', [$otp, firm('mobile')]);
+    $wa = sendWhatsAppTemplate($mobile, 'forgot_otp', [$otp, firm('mobile')]);
+    if (!empty($wa['error'])) {
+        $message = is_array($wa['error']) ? ($wa['error']['message'] ?? 'WhatsApp message could not be sent.') : $wa['error'];
+        json_response(false, 'WhatsApp OTP failed: ' . $message);
+    }
     json_response(true, 'Password recovery OTP sent.');
 }
 
