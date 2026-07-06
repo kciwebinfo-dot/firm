@@ -53,7 +53,7 @@ $message = $_GET['message'] ?? '';
     </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="<?= e(asset('assets/js/ajax.js')) ?>"></script>
+<script src="<?= e(asset('assets/js/ajax.js')) ?>?v=20260706-2"></script>
 <script>
 document.getElementById('showPassword').addEventListener('click', () => {
     const input = document.getElementById('password');
