@@ -10,7 +10,16 @@ async function safeFetch(url, options = {}) {
         options.headers = options.headers || {};
         options.headers['X-CSRF-Token'] = token;
         const response = await fetch(url, options);
-        const data = await response.json();
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (parseError) {
+            data = {
+                success: false,
+                message: response.ok ? 'Server returned an invalid response.' : 'Server error. Please try again.'
+            };
+        }
         if (!data.success) {
             Swal.fire('Error', data.message || 'Something went wrong.', 'error');
         }
