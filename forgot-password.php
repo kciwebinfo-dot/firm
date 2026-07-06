@@ -12,7 +12,7 @@
 <div class="mb-3 d-none step-otp"><label class="form-label">OTP</label><input class="form-control" name="otp" maxlength="6"></div>
 <div class="d-none step-pass"><div class="mb-3"><label class="form-label">New Password</label><input class="form-control" type="password" name="password"></div><div class="mb-3"><label class="form-label">Confirm Password</label><input class="form-control" type="password" name="confirm_password"></div></div>
 <button class="btn btn-primary w-100" type="submit">Send OTP</button><a class="d-block text-center mt-3" href="login.php">Back to login</a></form></div></section></main>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script src="<?= e(asset('assets/js/ajax.js')) ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><script src="<?= e(asset('assets/js/ajax.js')) ?>?v=20260706-2"></script>
 <script>
 document.getElementById('forgotForm').addEventListener('submit', async e => {
  e.preventDefault(); const form=e.target, action=document.getElementById('forgotAction'), btn=form.querySelector('button'); const data=await safeFetch(form.action,{method:'POST',body:new FormData(form),button:btn});
