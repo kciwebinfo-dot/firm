@@ -69,7 +69,7 @@ function can_access($menu_key): bool
     if (in_array($role, ['super_admin', 'admin'], true)) {
         return true;
     }
-    return in_array($menu_key, ['dashboard', 'profile', 'logout'], true);
+    return in_array($menu_key, ['dashboard', 'clients', 'generate_bill', 'bills', 'payments', 'profile', 'logout'], true);
 }
 
 function clean_mobile($mobile): string
@@ -85,6 +85,74 @@ function redirect($url): void
 {
     header('Location: ' . $url);
     exit;
+}
+
+function encode_token($value): string
+{
+    return rtrim(strtr(base64_encode((string)$value), '+/', '-_'), '=');
+}
+
+function decode_token($token): string
+{
+    $token = strtr((string)$token, '-_', '+/');
+    $pad = strlen($token) % 4;
+    if ($pad) {
+        $token .= str_repeat('=', 4 - $pad);
+    }
+    $decoded = base64_decode($token, true);
+    return $decoded === false ? '' : $decoded;
+}
+
+function money($amount): string
+{
+    return number_format((float)$amount, 2);
+}
+
+function amount_in_words_indian($amount): string
+{
+    $number = (int)floor((float)$amount);
+    if ($number === 0) {
+        return 'Zero Rupees Only';
+    }
+    $ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    $tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    $two = function ($n) use ($ones, $tens) {
+        if ($n < 20) return $ones[$n];
+        return trim($tens[(int)($n / 10)] . ' ' . $ones[$n % 10]);
+    };
+    $three = function ($n) use ($two, $ones) {
+        $text = '';
+        if ($n >= 100) {
+            $text .= $ones[(int)($n / 100)] . ' Hundred ';
+            $n %= 100;
+        }
+        return trim($text . ($n ? $two($n) : ''));
+    };
+    $parts = [];
+    foreach ([10000000 => 'Crore', 100000 => 'Lakh', 1000 => 'Thousand', 1 => ''] as $value => $label) {
+        if ($number >= $value) {
+            $chunk = (int)($number / $value);
+            $number %= $value;
+            $parts[] = trim($three($chunk) . ' ' . $label);
+        }
+    }
+    return trim(implode(' ', array_filter($parts))) . ' Rupees Only';
+}
+
+function next_document_no(string $table, string $column, string $prefix): string
+{
+    global $pdo;
+    $month = date('Ym');
+    $like = $prefix . '/' . $month . '/%';
+    $stmt = $pdo->prepare("SELECT {$column} FROM {$table} WHERE {$column} LIKE ? ORDER BY id DESC LIMIT 1");
+    $stmt->execute([$like]);
+    $last = (string)($stmt->fetchColumn() ?: '');
+    $next = 1;
+    if ($last) {
+        $parts = explode('/', $last);
+        $next = ((int)end($parts)) + 1;
+    }
+    return $prefix . '/' . $month . '/' . str_pad((string)$next, 4, '0', STR_PAD_LEFT);
 }
 
 function json_response(bool $success, string $message, array $extra = []): void
