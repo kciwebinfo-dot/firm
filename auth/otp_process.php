@@ -1,6 +1,20 @@
 <?php
 require_once __DIR__ . '/../config/whatsapp.php';
 
+header('Content-Type: application/json');
+set_exception_handler(function ($e) {
+    json_response(false, 'OTP request failed: ' . $e->getMessage());
+});
+register_shutdown_function(function () {
+    $error = error_get_last();
+    if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+        echo json_encode(['success' => false, 'message' => 'OTP request failed on server. Please check WhatsApp/API settings.']);
+    }
+});
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('../otp-login.php');
 }
