@@ -25,8 +25,8 @@ async function safeFetch(url, options = {}) {
         }
         return data;
     } catch (error) {
-        Swal.fire('Error', 'Network error. Please try again.', 'error');
-        return { success: false, message: 'Network error' };
+        Swal.fire('Error', 'Request failed. Please refresh the page and try again.', 'error');
+        return { success: false, message: 'Request failed' };
     } finally {
         if (button) {
             button.disabled = false;
