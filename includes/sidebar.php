@@ -2,10 +2,11 @@
 $active = $active ?? 'dashboard';
 $menus = [
     ['dashboard', 'dashboard.php', 'bi-speedometer2', 'Dashboard'],
-    ['clients', '#', 'bi-people', 'Clients'],
-    ['work', '#', 'bi-kanban', 'Work Status'],
-    ['reports', '#', 'bi-file-earmark-bar-graph', 'Reports'],
-    ['wallet', '#', 'bi-wallet2', 'Wallet'],
+    ['clients', 'clients.php', 'bi-people', 'Clients'],
+    ['services', 'services.php', 'bi-list-check', 'Services'],
+    ['generate_bill', 'generate-bill.php', 'bi-receipt-cutoff', 'Generate Bill'],
+    ['bills', 'bills.php', 'bi-file-earmark-text', 'Bills'],
+    ['payments', 'payments.php', 'bi-cash-coin', 'Payments'],
     ['profile', 'profile.php', 'bi-person-circle', 'Profile'],
     ['settings', '#', 'bi-gear', 'Settings'],
     ['logout', 'logout.php', 'bi-box-arrow-right', 'Logout'],
