@@ -1,0 +1,18 @@
+:root { --theme: #4361ee; --theme-rgb: 67,97,238; --theme-soft: #eef2ff; }
+.color-royal { --theme:#4361ee; --theme-rgb:67,97,238; --theme-soft:#eef2ff; }
+.color-orange { --theme:#f97316; --theme-rgb:249,115,22; --theme-soft:#fff7ed; }
+.color-blue { --theme:#0d6efd; --theme-rgb:13,110,253; --theme-soft:#eff6ff; }
+.color-green { --theme:#16a34a; --theme-rgb:22,163,74; --theme-soft:#f0fdf4; }
+.color-purple { --theme:#7c3aed; --theme-rgb:124,58,237; --theme-soft:#f5f3ff; }
+.color-red { --theme:#dc2626; --theme-rgb:220,38,38; --theme-soft:#fef2f2; }
+.color-teal { --theme:#0f766e; --theme-rgb:15,118,110; --theme-soft:#f0fdfa; }
+.color-pink { --theme:#db2777; --theme-rgb:219,39,119; --theme-soft:#fdf2f8; }
+.color-indigo { --theme:#4f46e5; --theme-rgb:79,70,229; --theme-soft:#eef2ff; }
+.color-cyan { --theme:#0891b2; --theme-rgb:8,145,178; --theme-soft:#ecfeff; }
+.color-amber { --theme:#d97706; --theme-rgb:217,119,6; --theme-soft:#fffbeb; }
+.color-emerald { --theme:#059669; --theme-rgb:5,150,105; --theme-soft:#ecfdf5; }
+.theme-dark { --bg:#111827; --panel:#172033; --text:#e5e7eb; --muted:#9ca3af; --border:rgba(255,255,255,.1); }
+.theme-light { --bg:#f5f7fb; --panel:#ffffff; --text:#1f2937; --muted:#6b7280; --border:#e5e7eb; }
+.style-soft .stat-card, .style-soft .sidebar { background: linear-gradient(180deg, var(--panel), var(--theme-soft)); }
+.style-solid .btn-primary, .style-solid .active { background: var(--theme) !important; }
+.style-gradient .topbar, .style-gradient .stat-card.accent { background: linear-gradient(135deg, rgba(var(--theme-rgb),.95), #111827); color:#fff; }
