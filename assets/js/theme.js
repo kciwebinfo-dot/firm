@@ -28,25 +28,26 @@ async function saveTheme(showToast = true) {
     }
 }
 
-document.addEventListener('click', event => {
-    const toggle = event.target.closest('#themeModeToggle');
-    if (toggle) {
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('themeModeToggle')?.addEventListener('click', event => {
+        event.preventDefault();
         themeState.mode = themeState.mode === 'dark' ? 'light' : 'dark';
         applyTheme();
         saveTheme(true);
-    }
-    const swatch = event.target.closest('.swatch[data-theme-color]');
-    if (swatch) {
-        themeState.color = swatch.dataset.themeColor;
-        applyTheme();
-        saveTheme(true);
-    }
-});
+    });
 
-document.addEventListener('change', event => {
-    if (event.target.id === 'themeStyleSelect') {
+    document.querySelectorAll('.theme-swatches .swatch[data-theme-color]').forEach(swatch => {
+        swatch.addEventListener('click', event => {
+            event.preventDefault();
+            themeState.color = swatch.dataset.themeColor;
+            applyTheme();
+            saveTheme(true);
+        });
+    });
+
+    document.getElementById('themeStyleSelect')?.addEventListener('change', event => {
         themeState.style = event.target.value;
         applyTheme();
         saveTheme(true);
-    }
+    });
 });
