@@ -35,7 +35,7 @@ document.addEventListener('click', event => {
         applyTheme();
         saveTheme(true);
     }
-    const swatch = event.target.closest('[data-theme-color]');
+    const swatch = event.target.closest('.swatch[data-theme-color]');
     if (swatch) {
         themeState.color = swatch.dataset.themeColor;
         applyTheme();
